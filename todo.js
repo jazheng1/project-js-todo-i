@@ -15,3 +15,28 @@ Keep the responsibilities separated as best you can:
 4. Displaying information to the user
 5. Rather user input and taking the appropriate actions
 */
+
+let readList = require('./listReader.js');
+let append = require('./appennd.js');
+let remove = require('./delete.js');
+let process = require('process');
+let verdict = process.argv[2];
+let element = process.argv[3];
+
+function todo() {
+  if (verdict === 'list') {
+    console.log(readList());
+  }
+
+  if (verdict === 'add') {
+    append(readList(), element);
+    console.log(append());
+  }
+
+  if (verdict === 'delete') {
+    remove(readList());
+    console.log(remove(readList()));
+  }
+}
+
+todo();

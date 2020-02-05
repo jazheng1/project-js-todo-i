@@ -5,11 +5,13 @@ let process = require('process');
 
 function readList() {
   let list = process.argv[2];
-  let text = fs.readFileSync(`${list}`, 'utf-8');
+  let text = fs.readFileSync(list, 'utf-8').split('\n');
+  for (let i = 0; i < text.length - 1; i++) {
+    console.log(`${i + 1} . ${text[i]}`);
+  }
   return text;
 }
 
-let test = readList();
-console.log(test);
+readList();
 
 module.exports = readList;
