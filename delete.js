@@ -1,17 +1,11 @@
-let process = require('process');
+let readlineSync = require('readline-sync');
+let fs = require('fs');
 
 function remove(array) {
-  let deleteToDo = process.argv[2];
-  let possibleWord = '';
-  console.log('deleting ' + deleteToDo + ' from the TODO list');
-  for (let i = 0; i < array.length; i++) {
-    for (let j = 0; j < array[i].length; j++) {
-      possibleWord = possibleWord + array[i].charAt(j);
-      if (possibleWord === deleteToDo) {
-        array.splice(i, 1);
-      }
-    }
-  }
+  let word = readlineSync.question('What do you want to remove to the array? ');
+  console.log(`Deleting '${word}' from the TODO list`);
+  let newValue = './todos.txt'.replace(word, '');
+  fs.writeFileSync('./todos.txt', newValue, 'utf-8');
   return array;
 }
 

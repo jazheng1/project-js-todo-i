@@ -1,41 +1,27 @@
-/*
-What types of objects do you need?
-
-List out nouns and verbs involved in creating TODO lists.
-Decide which nouns and verbs you want/need to model.
-The nouns will be your objects and the values the functions.
-
-Write simple functions that work on a few number of well-defined objects.
-
-Keep the responsibilities separated as best you can:
-
-1. Representing a real-life todo list as in-memory objects
-2. Manipulating those in-memory objects
-3. Reading and writing from the todos.txt file
-4. Displaying information to the user
-5. Rather user input and taking the appropriate actions
-*/
-
 let readList = require('./listReader.js');
 let append = require('./appennd.js');
 let remove = require('./delete.js');
 let process = require('process');
-let verdict = process.argv[2];
-let element = process.argv[3];
+let fs = require('fs');
+let command = process.argv[2];
 
 function todo() {
-  if (verdict === 'list') {
-    console.log(readList());
+  if (command === 'list') {
+    for (let i = 0; i < readList().length - 1; i++) {
+      console.log(`${i + 1}. [ ] ${readList()[i]}`);
+    }
   }
 
-  if (verdict === 'add') {
-    append(readList(), element);
-    console.log(append());
+  if (command === 'add') {
+    let counter = 0;
+    for (let i = 0; i < readList().length; i++) {
+      counter++;
+    }
+    readList().push(`${counter}. [ ] ${append(readList())}`);
   }
 
-  if (verdict === 'delete') {
+  if (command === 'delete') {
     remove(readList());
-    console.log(remove(readList()));
   }
 }
 
