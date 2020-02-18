@@ -1,17 +1,35 @@
-/*
-What types of objects do you need?
+let append = require('./appennd.js');
+let readList = require('./listReader');
+let remove = require('./delete.js');
+let process = require('process');
+let fs = require('fs');
+let readlineSync = require('readline-sync');
+let command = process.argv[2];
+let file = './todos.txt';
+let text = fs.readFileSync(file, 'utf-8').split('\n');
+let updateTextFile = require('./updateTextFile.js');
+let completeMark = require('./completeMark.js');
+let printList = require('./printList.js');
 
-List out nouns and verbs involved in creating TODO lists.
-Decide which nouns and verbs you want/need to model.
-The nouns will be your objects and the values the functions.
+function todo() {
+  if (command === 'list') {
+    readList(text);
+    printList(file);
+  }
+  if (command === 'add') {
+    let addWord = readlineSync.question('What do you want to add to the list? ');
+    append(addWord, text);
+    updateTextFile(text);
+  }
+  if (command === 'delete') {
+    let taskNumber = process.argv[3];
+    remove(taskNumber, text);
+    updateTextFile(text);
+  }
+  if (command === 'complete') {
+    let completedTaskNumber = process.argv[3];
+    completeMark(text, completedTaskNumber);
+  }
+}
 
-Write simple functions that work on a few number of well-defined objects.
-
-Keep the responsibilities separated as best you can:
-
-1. Representing a real-life todo list as in-memory objects
-2. Manipulating those in-memory objects
-3. Reading and writing from the todos.txt file
-4. Displaying information to the user
-5. Rather user input and taking the appropriate actions
-*/
+todo();
