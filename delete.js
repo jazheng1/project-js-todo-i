@@ -1,12 +1,6 @@
-let readlineSync = require('readline-sync');
-let fs = require('fs');
-
-function remove(array) {
-  let word = readlineSync.question('What do you want to remove to the array? ');
-  console.log(`Deleting '${word}' from the TODO list`);
-  let newValue = './todos.txt'.replace(word, '');
-  fs.writeFileSync('./todos.txt', newValue, 'utf-8');
-  return array;
+function remove(taskNumber, list) {
+  console.log(`Deleting task ${taskNumber} from the TODO list...`);
+  list.splice(taskNumber - 1, 1);
 }
 
 module.exports = remove;

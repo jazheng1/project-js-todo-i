@@ -1,27 +1,34 @@
-let readList = require('./listReader.js');
 let append = require('./appennd.js');
+let readList = require('./listReader');
 let remove = require('./delete.js');
 let process = require('process');
 let fs = require('fs');
+let readlineSync = require('readline-sync');
 let command = process.argv[2];
+let file = './todos.txt';
+let text = fs.readFileSync(file, 'utf-8').split('\n');
+let updateTextFile = require('./updateTextFile.js');
+let completeMark = require('./completeMark.js');
+let printList = require('./printList.js');
 
 function todo() {
   if (command === 'list') {
-    for (let i = 0; i < readList().length - 1; i++) {
-      console.log(`${i + 1}. [ ] ${readList()[i]}`);
-    }
+    readList(text);
+    printList(file);
   }
-
   if (command === 'add') {
-    let counter = 0;
-    for (let i = 0; i < readList().length; i++) {
-      counter++;
-    }
-    readList().push(`${counter}. [ ] ${append(readList())}`);
+    let addWord = readlineSync.question('What do you want to add to the list? ');
+    append(addWord, text);
+    updateTextFile(text);
   }
-
   if (command === 'delete') {
-    remove(readList());
+    let taskNumber = process.argv[3];
+    remove(taskNumber, text);
+    updateTextFile(text);
+  }
+  if (command === 'complete') {
+    let completedTaskNumber = process.argv[3];
+    completeMark(text, completedTaskNumber);
   }
 }
 
